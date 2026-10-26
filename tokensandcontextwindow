@@ -1,0 +1,135 @@
+What are tokens and context?
+
+🔹 1. What are Tokens?
+Tokens are the fundamental units of text that AI language models process. Instead of working directly with raw text (like sentences or words), models break down the input into smaller pieces called tokens.
+
+Key Points:
+Token Definition: A token can be a word, part of a word, or even a single character depending on the tokenizer used.
+Tokenization: The process of converting raw text into tokens.
+Examples:
+Sentence: "Hello, world!"
+Tokens might be: ["Hello", ",", " world", "!"] or ["Hel", "lo", ",", " world", "!"] depending on tokenizer granularity.
+Why tokens?
+Models handle fixed-size inputs, and tokens provide a consistent way to represent text for neural networks.
+Real-World Analogy:
+Think of tokens like LEGO blocks — the model builds understanding by combining these blocks rather than dealing with the entire structure at once.
+
+🔹 2. What is Context?
+Context refers to the surrounding information or text that the model uses to understand and generate meaningful responses.
+
+Key Points:
+Context Window: The maximum number of tokens the model can consider at once.
+Role of Context:
+The model uses context to:
+Understand the meaning of ambiguous words.
+Maintain coherence across sentences.
+Generate relevant and consistent output.
+Context Size Limit:
+For example, GPT-3 has a context window of 2048 tokens, meaning it can only "see" and process that many tokens at a time.
+Sliding Context:
+For longer conversations or documents, older tokens may be truncated to keep within the context window.
+Real-World Analogy:
+Context is like the memory or background knowledge you keep in mind when having a conversation — it helps you understand what’s being said and respond appropriately.
+
+🔹 3. How Tokens and Context Work Together in AI Models
+The input text is first tokenized into tokens.
+The model processes these tokens within its context window.
+The model predicts or generates the next token based on the tokens in the current context.
+Larger context windows allow the model to understand longer passages and maintain better coherence.
+🔹 4. Visual Diagram (ASCII)
+Raw Text: "The quick brown fox jumps over the lazy dog."
+
+Tokenization:
+["The", " quick", " brown", " fox", " jumps", " over", " the", " lazy", " dog", "."]
+
+Context Window (e.g., 5 tokens):
+| The | quick | brown | fox | jumps |
+
+Model processes these 5 tokens to predict next token "over", then slides window forward.
+🔹 5. Why Tokens and Context Matter in AI Software Engineering
+Token limits affect input size: You must design systems that handle token limits gracefully.
+Context impacts model performance: More context usually means better understanding but requires more compute.
+Token usage affects cost: Many AI APIs charge based on tokens processed.
+Tokenization affects accuracy: Proper tokenization ensures better model comprehension.
+🔹 6. Summary
+Term	Definition	Example
+Token	Smallest unit of text processed by the model	Word, subword, or character
+Context	Surrounding tokens the model uses to understand/generate text	Previous conversation or paragraph
+
+Context window limits??
+
+Definition and Core Understanding
+Context window limit refers to the maximum amount of text (tokens) that an AI language model can process or "remember" at once during a single interaction or inference. It defines the boundary of how much input the model can consider when generating a response.
+
+Token: A token can be a word, part of a word, or even punctuation depending on the tokenizer used.
+Context Window: The sequence of tokens the model attends to simultaneously.
+For example, if a model has a context window limit of 4,096 tokens, it can only consider the last 4,096 tokens of the conversation or input text when generating the next output.
+
+Step-by-Step Explanation
+Tokenization:
+The input text is split into tokens using a tokenizer. For example, the sentence "Hello world!" might become ["Hello", "world", "!"].
+
+Context Window Size:
+The model has a fixed maximum number of tokens it can process at once. This is a hard architectural limit determined by the model design (e.g., GPT-3's base models have 2,048 tokens, GPT-4 can have 8,192 or more).
+
+Attention Mechanism:
+Transformers use self-attention to attend to all tokens within the context window simultaneously. This means the model "remembers" and uses all tokens within this window to generate coherent and contextually relevant output.
+
+Truncation or Sliding Window:
+If the input exceeds the context window size, the oldest tokens are truncated or discarded, or a sliding window approach is used to keep the most recent tokens.
+
+Impact on Model Output:
+
+If important context is outside the window, the model cannot use it, potentially causing loss of coherence or forgetting earlier conversation details.
+Longer context windows enable better understanding of long documents or conversations.
+Visual Diagram
+|---------------- Context Window Limit ---------------|
+| Token 1 | Token 2 | ... | Token N-1 | Token N | Output
+^
+Oldest tokens truncated if input > window size
+Real-World Examples
+Chatbots:
+If a conversation exceeds the context window, the bot may "forget" earlier parts, causing inconsistent answers.
+
+Document Summarization:
+Models with larger context windows can summarize longer documents without losing important details.
+
+Code Generation:
+For generating or completing large codebases, a bigger context window helps maintain coherence across multiple functions or files.
+
+Common Misunderstandings and Mistakes
+"The model remembers everything from the conversation":
+False. The model only "remembers" tokens within its context window. Anything beyond that is lost unless explicitly stored or summarized.
+
+"Increasing input length always improves output":
+Not necessarily. If input exceeds the context window, older tokens are dropped, which might remove crucial context.
+
+"Context window is about memory size":
+It's about token sequence length, not RAM or storage size.
+
+Practical Considerations for Developers
+Chunking:
+When processing large texts, split input into chunks within the context window size.
+
+Summarization:
+Summarize or compress earlier context to fit within the window.
+
+State Management:
+For chatbots, maintain conversation state externally and feed relevant context snippets.
+
+Model Selection:
+Choose models with larger context windows for tasks requiring long-range dependencies.
+
+Context Window Sizes of Popular Models (as of 2024)
+Model	Context Window Size (Tokens)
+GPT-3 (davinci)	2,048
+GPT-4 (base)	8,192
+GPT-4 (extended)	32,768
+Claude 2	100,000+
+Summary
+Aspect	Explanation
+Context Window	Max tokens model can process at once
+Tokens	Smallest unit of text input
+Effect	Limits how much input model "remembers"
+Handling Limits	Truncation, chunking, summarization
+Importance	Critical for long conversations, docs
